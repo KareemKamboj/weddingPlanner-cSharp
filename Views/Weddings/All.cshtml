@@ -1,0 +1,43 @@
+@model List<Wedding>
+
+<div>
+        @foreach (Wedding wedding in Model)
+        {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Wedding of</th>
+                    <th>Date</th>
+                    <th>Guest Count</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td><a asp-controller="Weddings" asp-action="GetOneWedding" asp-route-oneWeddingId="@wedding.WeddingId">@wedding.WedderOne & @wedding.WedderTwo </a></td>
+                    <td>@wedding.Date</td>
+                    <td>@wedding.WeddingRsvp.Count</td>
+                    <td>
+                        @{
+                            bool alreadyRsvp = wedding.WeddingRsvp.Any(wr => wr.UserId == Context.Session.GetInt32("UUID"));
+                        }        
+                        <form asp-controller="Weddings" asp-action="Reserve" asp-route-WeddingId="@wedding.WeddingId">
+                        <button>
+                            @if (alreadyRsvp)
+                            {
+                                <span>Un-RSVP</span>
+                            }
+                            else
+                            {
+                                <span>RSVP</span>
+                            }
+                        </button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        }
+</div>

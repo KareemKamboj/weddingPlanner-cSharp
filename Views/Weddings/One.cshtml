@@ -1,0 +1,26 @@
+@model Wedding
+
+    <h2>@Model.WedderOne & @Model.WedderTwo <span>wedding</span></h2>
+    <h5><p>Date: @Model.Date</p></h5>
+
+@if (Model.UserId == Context.Session.GetInt32("UUID"))
+{
+    <a href="/weddings/@Model.WeddingId/edit" class="btn btn-primary">Edit</a>
+    @* <form
+        asp-controller="Weddings"
+        asp-action="DeleteWedding"
+        asp-route-deleteWeddingId="@Model.WeddingId"
+        method="POST"
+    >
+        <button class="btn-outline-danger">Delete</button>
+    </form> *@
+    <a href="/weddings/@Model.WeddingId/delete" class="btn btn-danger">Delete</a>
+}
+
+<div class="container">
+<h3>Guests:</h3>
+@foreach (Rsvp rsvp in Model.WeddingRsvp)
+{
+    <p>@rsvp.User.FirstName @rsvp.User.LastName</p>
+}
+</div>
